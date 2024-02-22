@@ -8,6 +8,9 @@ app.use(cors())
 require("./config/mongoose.config");
     
 app.use(express.json(), express.urlencoded({ extended: true }));
+
+const AllMyUserRoutes = require("./routes/book.routes");
+AllMyUserRoutes(app);
     
 
     
