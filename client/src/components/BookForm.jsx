@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const BookForm = () => {
@@ -11,7 +11,7 @@ const BookForm = () => {
 
   const [errors, setErrors] = useState({});
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onChangeHandler = (e) => {
     setBook({
@@ -52,7 +52,7 @@ const BookForm = () => {
       axios.post('http://localhost:8000/api/books/new', book)
         .then(res => {
           console.log(res);
-          //navigate('/api/books');
+          navigate('/api/books');
         })
         .catch(err => console.log(err));
     }
