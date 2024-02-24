@@ -11,6 +11,8 @@ app.use(express.json(), express.urlencoded({ extended: true }));
 
 const AllMyUserRoutes = require("./routes/book.routes");
 AllMyUserRoutes(app);
+
+require('./routes/user.routes')(app);
     
 
     
