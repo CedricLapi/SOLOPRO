@@ -5,6 +5,13 @@ import axios from 'axios';
 const BookClubDashboard = () => {
     const [books, setBooks] = useState([]);
     const navigate = useNavigate();
+    const logout = () => {
+        axios.post('http://localhost:8000/api/users/logout', {}, {withCredentials: true})
+            .then(res => {
+                console.log(res)
+                navigate('/api/users/register')})
+            .catch(err => console.log(err))
+    }
 
     useEffect(() => {
         axios.get('http://localhost:8000/api/books')
@@ -24,8 +31,11 @@ const BookClubDashboard = () => {
 
     return (
         <div>
+             <button className="btn btn-danger" onClick={logout}>Log Out</button>
+
             {/*<Link to="/api/books" className="ml-auto">HOME</Link>*/}
             <button className="btn btn-info offset-9 mt-5" onClick={navigateToBookForm}>Add a New Book</button>
+
 
             <h3 className='mx-auto'>All Books</h3>
 
