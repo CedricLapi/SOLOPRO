@@ -37,6 +37,14 @@ const RegisterForm = () => {
         <div>
             <form action="" className="col-md-6 mx-auto" onSubmit={submitHandler}>
                 <h3 className="text-center">Register</h3>
+
+                <div className='form-group'>
+                    <label className='form-check-label'>
+                        <input type="checkbox" className='form-check-input' name="isAdmin" checked={userInfo.isAdmin} onChange={changeHandler}/>
+                        Admin
+                    </label>
+                </div>
+                
                 <div className='form-group'>
                     <label className='form-label'>First Name:</label>
                     <input type="text" className='form-control' name="firstName" value={userInfo.firstName} onChange={changeHandler}/>
@@ -61,12 +69,7 @@ const RegisterForm = () => {
 
                 </div>
 
-                <div className='form-group'>
-                    <label className='form-check-label'>
-                        <input type="checkbox" className='form-check-input' name="isAdmin" checked={userInfo.isAdmin} onChange={changeHandler}/>
-                        Admin
-                    </label>
-                </div>
+                
 
                 <div className='form-group'>
                     <label className='form-label'>Confirm Password:</label>

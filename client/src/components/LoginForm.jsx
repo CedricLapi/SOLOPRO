@@ -23,7 +23,7 @@ const LoginForm = () => {
                 console.log(res);
                 // Check if user is admin
                 if (res.data.user.isAdmin) {
-                    //navigate('/admin/dashboard');
+                    navigate('/api/users');
                 } else {
                     navigate('/api/books');
                 }
