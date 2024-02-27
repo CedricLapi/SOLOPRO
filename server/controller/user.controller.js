@@ -47,5 +47,15 @@ module.exports = {
             console.log(err);
             return res.status(400).json(err);
         }
+    },
+
+    getAllUsers: async (req, res) => {
+        try {
+            const users = await User.find();
+            return res.json(users);
+        } catch(err) {
+            console.log(err);
+            return res.status(400).json(err);
+        }
     }
 };
