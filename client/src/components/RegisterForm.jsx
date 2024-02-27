@@ -26,7 +26,7 @@ const submitHandler = (e) => {
     axios.post('http://localhost:8000/api/users/register', userInfo, {withCredentials: true})
         .then(res => {
             console.log(res)
-            navigate('/api/books')
+            navigate('/api/users/login')
         })
         .catch(err => console.log(err))
 }
