@@ -4,10 +4,13 @@ import axios from 'axios';
 
 const BookClubDashboard = () => {
     const [books, setBooks] = useState([]);
+    const [favorites, setFavorites] = useState([]);
+    const [users, setUsers] = useState([]);
+
     const navigate = useNavigate();
 
     const logout = () => {
-        axios.post('http://localhost:8000/api/users/logout', {}, {withCredentials: true})
+        axios.post('http://localhost:8000/api/users/logout', {}, { withCredentials: true })
             .then(res => {
                 console.log(res);
                 navigate('/api/users/register');
@@ -17,9 +20,31 @@ const BookClubDashboard = () => {
 
     useEffect(() => {
         axios.get('http://localhost:8000/api/books')
-            .then(res => setBooks(res.data.books))
+            .then(res => {
+                // Populate the "suggestedBy" field
+                const populatedBooks = res.data.books.map(book => {
+                    return axios.get(`http://localhost:8000/api/users/${book.suggestedBy}`)
+                        .then(userRes => {
+                            const suggestedBy = userRes.data.user;
+                            return { ...book, suggestedBy };
+                        });
+                });
+                Promise.all(populatedBooks)
+                    .then(booksWithSuggestedBy => setBooks(booksWithSuggestedBy))
+                    .catch(err => console.log(err));
+            })
             .catch(err => console.log(err));
     }, []);
+
+    const toggleFavorite = (bookId) => {
+        setFavorites(prevFavorites => {
+            if (prevFavorites.includes(bookId)) {
+                return prevFavorites.filter(id => id !== bookId);
+            } else {
+                return [...prevFavorites, bookId];
+            }
+        });
+    };
 
     const navigateToBookForm = () => {
         navigate("/api/books/new");
@@ -40,12 +65,32 @@ const BookClubDashboard = () => {
                 {books.map(book => (
                     <li key={book._id}>
                         <h4>
-                            <Link to={`${book._id}/details`}>{book.title}</Link>
+                            <Link to={`/api/books/${book._id}/details`}>{book.title}</Link>
+                            {book.suggestedBy && (
+                                <p>Suggested by: {booksuggestedBy.firstName} {book.suggestedBy.lastName}</p>
+                            )}
+                            <button className="btn btn-sm ml-2" onClick={() => toggleFavorite(book._id)}>
+                                {favorites.includes(book._id) ? "Remove from Favorites" : "Add to Favorites"}
+                            </button>
                         </h4>
                         <button className="btn btn-info mr-3" onClick={() => navigateToEditBook(book._id)}>Edit</button>
                     </li>
                 ))}
             </ul>
+            {users.map(user => (
+                <div key={user._id}>
+                    <h3>{user.firstName} {user.lastName}</h3>
+                    <ul>
+                        {user.uploadedBooks.map(book => (
+                            <li key={book._id}>
+                                <h4>{book.title}</h4>
+                                {/* Display book details */}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
+
         </div>
     );
 };

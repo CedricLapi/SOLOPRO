@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+
+
+
  
 const BookSchema = new mongoose.Schema({
 
@@ -14,10 +17,17 @@ const BookSchema = new mongoose.Schema({
         required: [true, "description is required!"],
         minlength: [5, "description must be at least 5 characters long!"]
         
+    },
+
+    // Add a reference to the user who suggested the book
+    suggestedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     }
 
     }, { timestamps: true });
  
+
 const Book = mongoose.model('Book', BookSchema);
  
 module.exports = Book;

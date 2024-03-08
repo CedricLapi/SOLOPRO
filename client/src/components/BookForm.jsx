@@ -62,7 +62,7 @@ const BookForm = () => {
     <div>
         <h3 className='mx-auto'>Add A New Book</h3>
 
-      {/*<Link to="/api/books" className="ml-auto">HOME</Link>*/}
+      <Link to="/api/books" className="ml-auto">HOME</Link>
 
 
 

@@ -50,3 +50,29 @@ module.exports.deleteAnExistingBook = (req, res) => {
         .catch((err) => {
             res.json({ message: 'Something went wrong', error: err })
         });}
+
+        
+module.exports.addToFavorites = (req, res) => {
+            const { id } = req.params;
+            const { userId } = req.body;
+        
+            Book.findById(id)
+                .then(book => {
+                    if (!book) {
+                        return res.status(404).json({ message: 'Book not found' });
+                    }
+                    // Check if user already favorited the book
+                    if (book.favorites.includes(userId)) {
+                        return res.status(400).json({ message: 'Book already favorited by the user' });
+                    }
+                    // Add user to favorites
+                    book.favorites.push(userId);
+                    return book.save();
+                })
+                .then(updatedBook => {
+                    res.json({ book: updatedBook });
+                })
+                .catch(err => {
+                    res.status(500).json({ message: 'Something went wrong', error: err });
+                });
+        };

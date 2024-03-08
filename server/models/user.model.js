@@ -33,6 +33,14 @@ const UserSchema = new mongoose.Schema({
     
  }, {timestamps: true});
 
+ // Define suggestedBooks field to establish the relationship with Book model
+UserSchema.virtual('suggestedBooks', {
+    ref: 'Book',
+    localField: '_id',
+    foreignField: 'suggestedBy'
+});
+
+
 
  // Middleware to check to see if password matches confirm password
 
